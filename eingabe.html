@@ -1,0 +1,57 @@
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Eingabe</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Kontaktformular</h1>
+
+    <form id="form">
+      <input type="text" id="name" placeholder="Name" required>
+      <input type="email" id="email" placeholder="E-Mail" required>
+      <input type="tel" id="telefon" placeholder="Telefon" required>
+
+      <select id="betreff" required>
+        <option value="">Betreff wählen</option>
+        <option>Support</option>
+        <option>Feedback</option>
+        <option>Allgemein</option>
+      </select>
+
+      <textarea id="nachricht" placeholder="Nachricht" required></textarea>
+
+      <button type="submit">Absenden</button>
+    </form>
+
+    <p id="msg"></p>
+
+    <a href="uebersicht.html">Zur Übersicht</a>
+  </div>
+
+  <script>
+    const form = document.getElementById('form');
+    const msg = document.getElementById('msg');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const eintrag = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        telefon: document.getElementById('telefon').value,
+        betreff: document.getElementById('betreff').value,
+        nachricht: document.getElementById('nachricht').value
+      };
+
+      let daten = JSON.parse(localStorage.getItem('kontakte')) || [];
+      daten.push(eintrag);
+      localStorage.setItem('kontakte', JSON.stringify(daten));
+
+      msg.textContent = "Gespeichert!";
+      form.reset();
+    });
+  </script>
+</body>
+</html>

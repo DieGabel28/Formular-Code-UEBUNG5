@@ -1,0 +1,57 @@
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Übersicht</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Einträge</h1>
+
+    <div id="liste"></div>
+
+    <button onclick="alleLoeschen()">Alle löschen</button>
+    <br><br>
+    <a href="eingabe.html">Zur Eingabe</a>
+  </div>
+
+  <script>
+    function anzeigen() {
+      const liste = document.getElementById('liste');
+      liste.innerHTML = '';
+
+      let daten = JSON.parse(localStorage.getItem('kontakte')) || [];
+
+      daten.forEach((eintrag, index) => {
+        const div = document.createElement('div');
+        div.className = 'card';
+
+        div.innerHTML = `
+          <strong>Name:</strong> ${eintrag.name}<br>
+          <strong>Email:</strong> ${eintrag.email}<br>
+          <strong>Telefon:</strong> ${eintrag.telefon}<br>
+          <strong>Betreff:</strong> ${eintrag.betreff}<br>
+          <strong>Nachricht:</strong> ${eintrag.nachricht}<br>
+          <button onclick="loeschen(${index})">Löschen</button>
+        `;
+
+        liste.appendChild(div);
+      });
+    }
+
+    function loeschen(index) {
+      let daten = JSON.parse(localStorage.getItem('kontakte')) || [];
+      daten.splice(index, 1);
+      localStorage.setItem('kontakte', JSON.stringify(daten));
+      anzeigen();
+    }
+
+    function alleLoeschen() {
+      localStorage.removeItem('kontakte');
+      anzeigen();
+    }
+
+    anzeigen();
+  </script>
+</body>
+</html>
